@@ -34,6 +34,7 @@ const App_80 = () => {
     <>
       <section className='section-center'>
         <form className='grocery-form' onSubmit={handleSubmit}>
+          { alert.show && <Alert_80 {...alert} removeAlert= {showAlert}/>}
           <h3>Grocery Bud - 208410380</h3>
           <div className='form-control'>
             <input
@@ -48,6 +49,12 @@ const App_80 = () => {
             </button>
           </div>
         </form>
+        { list.length > 0 && (
+          <div className="grocery-container">
+            <List_80 items={list} />
+            <button className="clear-btn">clear items</button>
+          </div>
+          )}
       </section>
     </>
   );
