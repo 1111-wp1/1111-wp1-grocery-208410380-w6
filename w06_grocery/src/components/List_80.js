@@ -1,26 +1,30 @@
-import React from 'react'
-import { FaEdit, FaTrash } from 'react-icons/fa'
-const List_80 = ( { items } ) => {
+import React from 'react';
+import { FaEdit, FaTrash } from 'react-icons/fa';
+const List_80 = ({ items, removeItem }) => {
   return (
-    <div className="grocery-list">
-      { items.map( (item) => {
-        const { id, title} = item;
+    <div className='grocery-list'>
+      {items.map((item) => {
+        const { id, title } = item;
         return (
-          <article className="grocery-item" key={id}>
+          <article className='grocery-item' key={id}>
             <p className='title'>{title}</p>
-           <div className="btn-container">
-           <button type="button" className="edit-btn">
-              <FaEdit />
-            </button>
-            <button type="button" className="delete-btn">
-              <FaTrash />
-            </button>
-           </div>
+            <div className='btn-container'>
+              <button type='button' className='edit-btn'>
+                <FaEdit />
+              </button>
+              <button
+                type='button'
+                className='delete-btn'
+                onClick={() => removeItem(id)}
+              >
+                <FaTrash />
+              </button>
+            </div>
           </article>
-        )
-      }) }
+        );
+      })}
     </div>
-  )
-}
+  );
+};
 
 export default List_80;

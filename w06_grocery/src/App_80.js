@@ -4,12 +4,12 @@ import Alert_80 from './components/Alert_80';
 
 const getLocalStorage = () => {
   let list = localStorage.getItem('list');
-  if(list) {
+  if (list) {
     return JSON.parse(localStorage.getItem('list'));
   } else {
-    return [];  //字串轉成陣列
-  } 
-}
+    return []; //字串轉成陣列
+  }
+};
 
 const App_80 = () => {
   const [name, setName] = useState('');
@@ -20,34 +20,44 @@ const App_80 = () => {
     type: '',
   });
 
-  useEffect( () => {
-    localStorage.setItem('list', JSON.stringify(list));  //陣列轉成字串
+  useEffect(() => {
+    localStorage.setItem('list', JSON.stringify(list)); //陣列轉成字串
   }, [list]);
 
   const showAlert = (show = false, msg = '', type = '') => {
-    setAlert({show, msg, type });
+    setAlert({ show, msg, type });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(!name) {
-      showAlert(true, 'please enter value', 'danger'); 
+    if (!name) {
+      showAlert(true, 'please enter value', 'danger');
     } else {
       showAlert(true, 'value changed', 'success');
       const newItem = {
         id: new Date().getTime().toString(),
-        title: name
+        title: name,
       };
       setList([...list, newItem]);
-      setName('')
+      setName('');
     }
+  };
+
+  const removeItem = (id) => {
+    showAlert(true, 'item removed', 'danger');
+    setList(list.filter((item) => item.id !== id));
+  };
+
+  const clearList = (id) => {
+    showAlert(true, 'empty list', 'danger');
+    setList([]);
   };
 
   return (
     <>
       <section className='section-center'>
         <form className='grocery-form' onSubmit={handleSubmit}>
-          { alert.show && <Alert_80 {...alert} removeAlert= {showAlert}/>}
+          {alert.show && <Alert_80 {...alert} removeAlert={showAlert} />}
           <h3>Grocery Bud - 208410380</h3>
           <div className='form-control'>
             <input
@@ -55,19 +65,23 @@ const App_80 = () => {
               className='grocery'
               placeholder='e.g eggs'
               value={name}
-              onChange={(e) => {setName(e.target.value)}}
+              onChange={(e) => {
+                setName(e.target.value);
+              }}
             />
             <button type='submit' className='submit-btn'>
               submit
             </button>
           </div>
         </form>
-        { list.length > 0 && (
-          <div className="grocery-container">
-            <List_80 items={list} />
-            <button className="clear-btn">clear items</button>
+        {list.length > 0 && (
+          <div className='grocery-container'>
+            <List_80 items={list} removeItem={removeItem} />
+            <button className='clear-btn' onClick={clearList}>
+              clear items
+            </button>
           </div>
-          )}
+        )}
       </section>
     </>
   );
